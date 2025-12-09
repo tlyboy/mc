@@ -26,8 +26,8 @@ pnpm preview
 {
   "serverName": "服务器名称",
   "serverAddress": "服务器地址",
+  "serverPort": 25565,
   "version": "1.20.1",
-  "online": false,
   "github": "https://github.com/xxx/xxx",
   "downloads": [
     {
@@ -41,6 +41,8 @@ pnpm preview
   ]
 }
 ```
+
+服务器在线状态通过 [mcsrvstat.us](https://api.mcsrvstat.us) API 自动检测。
 
 ### `public/img/`
 

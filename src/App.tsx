@@ -4,8 +4,8 @@ import Default from './layouts/default'
 interface Config {
   serverName: string
   serverAddress: string
+  serverPort: number
   version: string
-  online: boolean
   github: string
   downloads: {
     name: string
@@ -16,12 +16,33 @@ interface Config {
 function App() {
   const [config, setConfig] = useState<Config | null>(null)
   const [copied, setCopied] = useState(false)
+  const [online, setOnline] = useState<boolean | null>(null)
 
   useEffect(() => {
     fetch('/config.json')
       .then((res) => res.json())
       .then(setConfig)
   }, [])
+
+  useEffect(() => {
+    if (!config) return
+
+    const checkOnline = async () => {
+      try {
+        const res = await fetch(
+          `https://api.mcsrvstat.us/3/${config.serverAddress}:${config.serverPort}`,
+        )
+        const data = await res.json()
+        setOnline(data.online ?? false)
+      } catch {
+        setOnline(false)
+      }
+    }
+
+    checkOnline()
+    const interval = setInterval(checkOnline, 60000)
+    return () => clearInterval(interval)
+  }, [config])
 
   const copyToClipboard = async () => {
     if (!config) return
@@ -70,7 +91,9 @@ function App() {
 
           {/* 在线状态 */}
           <div className="mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2">
-            {config.online ? (
+            {online === null ? (
+              <span className="text-white/60">检测中...</span>
+            ) : online ? (
               <>
                 <span className="h-2 w-2 rounded-full bg-green-400" />
                 <span className="text-green-400">在线</span>
