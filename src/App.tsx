@@ -18,8 +18,8 @@ interface ServerStatus {
   players?: {
     online: number
     max: number
-    list?: { name: string }[]
   }
+  playerNames?: string[]
 }
 
 function App() {
@@ -47,6 +47,7 @@ function App() {
           serverName: data.motd?.clean?.[0],
           version: data.version,
           players: data.players,
+          playerNames: data.info?.clean,
         })
       } catch {
         setStatus({ online: false })
@@ -130,17 +131,17 @@ function App() {
 
           {/* 在线玩家列表 */}
           {status?.online &&
-            status.players?.list &&
-            status.players.list.length > 0 && (
+            status.playerNames &&
+            status.playerNames.length > 0 && (
               <div className="mb-8">
                 <p className="mb-2 text-sm text-white/60">当前玩家</p>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {status.players.list.map((p) => (
+                  {status.playerNames.map((name) => (
                     <span
-                      key={p.name}
+                      key={name}
                       className="rounded-full bg-white/10 px-3 py-1 text-sm text-white/80"
                     >
-                      {p.name}
+                      {name}
                     </span>
                   ))}
                 </div>
@@ -149,8 +150,8 @@ function App() {
 
           {/* 无玩家时的间距 */}
           {(!status?.online ||
-            !status.players?.list ||
-            status.players.list.length === 0) && <div className="mb-6" />}
+            !status.playerNames ||
+            status.playerNames.length === 0) && <div className="mb-6" />}
 
           {/* 服务器地址 */}
           <div className="mb-8">
