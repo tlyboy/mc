@@ -24,10 +24,8 @@ pnpm preview
 
 ```json
 {
-  "serverName": "服务器名称",
   "serverAddress": "服务器地址",
   "serverPort": 25565,
-  "version": "1.20.1",
   "github": "https://github.com/xxx/xxx",
   "downloads": [
     {
@@ -42,7 +40,7 @@ pnpm preview
 }
 ```
 
-服务器在线状态通过 [mcsrvstat.us](https://api.mcsrvstat.us) API 自动检测。
+服务器名称、版本、在线状态、玩家列表通过 [mcsrvstat.us](https://api.mcsrvstat.us) API 自动获取。
 
 ### `public/img/`
 

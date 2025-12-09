@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react'
 import Default from './layouts/default'
 
 interface Config {
-  serverName: string
   serverAddress: string
   serverPort: number
-  version: string
   github: string
   downloads: {
     name: string
@@ -13,10 +11,21 @@ interface Config {
   }[]
 }
 
+interface ServerStatus {
+  online: boolean
+  serverName?: string
+  version?: string
+  players?: {
+    online: number
+    max: number
+    list?: { name: string }[]
+  }
+}
+
 function App() {
   const [config, setConfig] = useState<Config | null>(null)
   const [copied, setCopied] = useState(false)
-  const [online, setOnline] = useState<boolean | null>(null)
+  const [status, setStatus] = useState<ServerStatus | null>(null)
 
   useEffect(() => {
     fetch('/config.json')
@@ -27,20 +36,25 @@ function App() {
   useEffect(() => {
     if (!config) return
 
-    const checkOnline = async () => {
+    const checkStatus = async () => {
       try {
         const res = await fetch(
           `https://api.mcsrvstat.us/3/${config.serverAddress}:${config.serverPort}`,
         )
         const data = await res.json()
-        setOnline(data.online ?? false)
+        setStatus({
+          online: data.online ?? false,
+          serverName: data.motd?.clean?.[0],
+          version: data.version,
+          players: data.players,
+        })
       } catch {
-        setOnline(false)
+        setStatus({ online: false })
       }
     }
 
-    checkOnline()
-    const interval = setInterval(checkOnline, 60000)
+    checkStatus()
+    const interval = setInterval(checkStatus, 60000)
     return () => clearInterval(interval)
   }, [config])
 
@@ -81,22 +95,30 @@ function App() {
         <div className="text-center text-white">
           {/* 服务器名称 */}
           <h1 className="mb-2 text-5xl font-bold tracking-wide md:text-6xl">
-            {config.serverName}
+            {status === null
+              ? '...'
+              : status.online
+                ? status.serverName
+                : '服务器离线'}
           </h1>
 
           {/* 版本信息 */}
-          <p className="mb-4 text-xl text-white/80">
-            Minecraft {config.version}
-          </p>
+          {status?.online && status.version && (
+            <p className="mb-4 text-xl text-white/80">
+              Minecraft {status.version}
+            </p>
+          )}
 
           {/* 在线状态 */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2">
-            {online === null ? (
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full px-4 py-2">
+            {status === null ? (
               <span className="text-white/60">检测中...</span>
-            ) : online ? (
+            ) : status.online ? (
               <>
                 <span className="h-2 w-2 rounded-full bg-green-400" />
-                <span className="text-green-400">在线</span>
+                <span className="text-green-400">
+                  在线 {status.players?.online ?? 0}/{status.players?.max ?? 0}
+                </span>
               </>
             ) : (
               <>
@@ -105,6 +127,30 @@ function App() {
               </>
             )}
           </div>
+
+          {/* 在线玩家列表 */}
+          {status?.online &&
+            status.players?.list &&
+            status.players.list.length > 0 && (
+              <div className="mb-8">
+                <p className="mb-2 text-sm text-white/60">当前玩家</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {status.players.list.map((p) => (
+                    <span
+                      key={p.name}
+                      className="rounded-full bg-white/10 px-3 py-1 text-sm text-white/80"
+                    >
+                      {p.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          {/* 无玩家时的间距 */}
+          {(!status?.online ||
+            !status.players?.list ||
+            status.players.list.length === 0) && <div className="mb-6" />}
 
           {/* 服务器地址 */}
           <div className="mb-8">
