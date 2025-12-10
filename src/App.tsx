@@ -63,6 +63,19 @@ function App() {
     return () => clearInterval(interval)
   }, [config])
 
+  useEffect(() => {
+    const defaultTitle = document.title
+    return () => {
+      document.title = defaultTitle
+    }
+  }, [])
+
+  useEffect(() => {
+    if (status?.online && status.serverName) {
+      document.title = status.serverName
+    }
+  }, [status?.online, status?.serverName])
+
   const copyToClipboard = async () => {
     if (!config) return
     try {

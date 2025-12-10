@@ -1,5 +1,5 @@
 services:
-  mc-web:
+  mc:
     build: .
     restart: unless-stopped
     ports:

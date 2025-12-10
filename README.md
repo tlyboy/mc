@@ -1,4 +1,4 @@
-# mc-web
+# mc
 
 Minecraft 服务器宣传页面
 
