@@ -102,17 +102,17 @@ function App() {
       <img
         src="/img/background.jpeg"
         alt="background"
-        className="absolute inset-0 h-full w-full object-cover"
+        className="fixed inset-0 h-full w-full object-cover"
       />
 
       {/* 半透明遮罩 */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="fixed inset-0 bg-black/50" />
 
       {/* 主要内容 */}
-      <div className="relative z-10 flex h-full items-center justify-center px-4">
-        <div className="text-center text-white">
+      <div className="relative z-10 min-h-full overflow-y-auto px-4 py-16 md:flex md:items-center md:justify-center md:py-8">
+        <div className="mx-auto max-w-2xl text-center text-white">
           {/* 服务器名称 */}
-          <h1 className="mb-2 text-5xl font-bold tracking-wide md:text-6xl">
+          <h1 className="mb-2 text-3xl font-bold tracking-wide sm:text-5xl md:text-6xl">
             {status === null
               ? '...'
               : status.online
@@ -195,18 +195,79 @@ function App() {
           </div>
 
           {/* 下载按钮 */}
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
             {config.downloads.map((download) => (
               <a
                 key={download.file}
                 href={download.file}
                 download
-                className="btn"
+                className="btn whitespace-nowrap px-3 py-2 text-xs sm:px-6 sm:py-3 sm:text-base"
               >
-                <span className="i-carbon-download text-xl" />
+                <span className="i-carbon-download text-lg sm:text-xl" />
                 <span>{download.name}</span>
               </a>
             ))}
+          </div>
+
+          {/* 使用说明 */}
+          <div className="mt-8 rounded-xl border border-white/20 bg-black/30 p-4 text-left backdrop-blur-sm sm:mt-12 sm:p-6">
+            <h2 className="mb-3 text-center text-base font-semibold sm:mb-4 sm:text-lg">
+              如何加入服务器
+            </h2>
+            <ol className="space-y-2 text-xs text-white/80 sm:space-y-3 sm:text-sm">
+              <li className="flex gap-2 sm:gap-3">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold sm:h-6 sm:w-6 sm:text-xs">
+                  1
+                </span>
+                <span>
+                  下载上方的<strong className="text-white">启动器</strong>和
+                  <strong className="text-white">整合包</strong>
+                </span>
+              </li>
+              <li className="flex gap-2 sm:gap-3">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold sm:h-6 sm:w-6 sm:text-xs">
+                  2
+                </span>
+                <span>
+                  打开启动器，导入整合包（
+                  <code className="rounded bg-white/10 px-1">.mrpack</code>{' '}
+                  文件）
+                </span>
+              </li>
+              <li className="flex gap-2 sm:gap-3">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold sm:h-6 sm:w-6 sm:text-xs">
+                  3
+                </span>
+                <span>启动游戏，等待加载完成</span>
+              </li>
+              <li className="flex gap-2 sm:gap-3">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold sm:h-6 sm:w-6 sm:text-xs">
+                  4
+                </span>
+                <span>
+                  点击<strong className="text-white">多人游戏</strong> →{' '}
+                  <strong className="text-white">添加服务器</strong>
+                </span>
+              </li>
+              <li className="flex gap-2 sm:gap-3">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold sm:h-6 sm:w-6 sm:text-xs">
+                  5
+                </span>
+                <span>
+                  输入服务器地址{' '}
+                  <code className="rounded bg-white/10 px-1">
+                    {config.serverAddress}
+                  </code>{' '}
+                  并保存
+                </span>
+              </li>
+              <li className="flex gap-2 sm:gap-3">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold sm:h-6 sm:w-6 sm:text-xs">
+                  6
+                </span>
+                <span>双击服务器即可加入游戏！</span>
+              </li>
+            </ol>
           </div>
         </div>
       </div>
