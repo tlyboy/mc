@@ -20,6 +20,7 @@ interface ServerStatus {
     max: number
   }
   playerNames?: string[]
+  icon?: string
 }
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
           version: data.version,
           players: data.players,
           playerNames: playerNames.length > 0 ? playerNames : undefined,
+          icon: data.icon,
         })
       } catch {
         setStatus({ online: false })
@@ -111,6 +113,15 @@ function App() {
       {/* 主要内容 */}
       <div className="relative z-10 min-h-full overflow-y-auto px-4 py-16 md:flex md:items-center md:justify-center md:py-8">
         <div className="mx-auto max-w-2xl text-center text-white">
+          {/* 服务器图标 */}
+          {status?.online && status.icon && (
+            <img
+              src={status.icon}
+              alt="服务器图标"
+              className="mx-auto mb-4 h-16 w-16 rounded-lg shadow-lg sm:h-20 sm:w-20"
+            />
+          )}
+
           {/* 服务器名称 */}
           <h1 className="mb-2 text-3xl font-bold tracking-wide sm:text-5xl md:text-6xl">
             {status === null
