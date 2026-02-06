@@ -2,25 +2,25 @@
 
 Minecraft 服务器宣传页面
 
-## 开发
+## 安装
+
+```bash
+git clone https://github.com/tlyboy/mc.git
+```
+
+## 使用说明
 
 ```bash
 pnpm install
 pnpm dev
-```
-
-## 构建
-
-```bash
 pnpm build
-pnpm preview
 ```
 
-## 配置
+### 配置
 
 需要在 `public/` 目录下创建以下文件：
 
-### `public/config.json`
+#### `public/config.json`
 
 ```json
 {
@@ -42,10 +42,14 @@ pnpm preview
 
 服务器名称、版本、在线状态、玩家列表通过 [mcsrvstat.us](https://api.mcsrvstat.us) API 自动获取。
 
-### `public/img/`
+#### `public/img/`
 
 - `background.jpeg` - 背景图片
 
-### `public/upload/`
+#### `public/upload/`
 
 放置下载文件
+
+## 使用许可
+
+[MIT](https://opensource.org/licenses/MIT) © Guany
