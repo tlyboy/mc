@@ -1,14 +1,14 @@
 # mc
 
-🎮 Minecraft server landing page
+🎮 Minecraft 服务器宣传页面
 
-## Install
+## 安装
 
 ```bash
 git clone https://github.com/tlyboy/mc.git
 ```
 
-## Usage
+## 使用说明
 
 ```bash
 pnpm install
@@ -16,40 +16,40 @@ pnpm dev
 pnpm build
 ```
 
-### Configuration
+### 配置
 
-Create the following files in the `public/` directory:
+需要在 `public/` 目录下创建以下文件：
 
 #### `public/config.json`
 
 ```json
 {
-  "serverAddress": "server address",
+  "serverAddress": "服务器地址",
   "serverPort": 25565,
   "github": "https://github.com/xxx/xxx",
   "downloads": [
     {
-      "name": "Launcher",
+      "name": "启动器",
       "file": "/upload/launcher.exe"
     },
     {
-      "name": "Modpack",
+      "name": "整合包",
       "file": "/upload/modpack.mrpack"
     }
   ]
 }
 ```
 
-Server name, version, online status, and player list are automatically fetched via the [mcsrvstat.us](https://api.mcsrvstat.us) API.
+服务器名称、版本、在线状态、玩家列表通过 [mcsrvstat.us](https://api.mcsrvstat.us) API 自动获取。
 
 #### `public/img/`
 
-- `background.jpeg` - Background image
+- `background.jpeg` - 背景图片
 
 #### `public/upload/`
 
-Place downloadable files here.
+放置下载文件
 
-## License
+## 使用许可
 
 [MIT](https://opensource.org/licenses/MIT) © Guany
